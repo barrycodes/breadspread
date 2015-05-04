@@ -2,6 +2,15 @@
 <ServiceConfiguration serviceName="BreadSpread.Cloud" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="4" osVersion="*" schemaVersion="2014-06.2.4">
   <Role name="BreadSpread.Web">
     <Instances count="1" />
-    <ConfigurationSettings />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="admin" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBpQYJKoZIhvcNAQcDoIIBljCCAZICAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEGyVpCCGpkKCTgvRSASz9xYwDQYJKoZIhvcNAQEBBQAEggEADjsX5LVEJD2OiYPeJHSKN5HD8QZGAvYyNI1nbWWNZB/yrhTxyhpvvCiUETVyjG21T7Z4oUxV4SmDm56dotZltnnPLnD3BloWXdBpZ68DNzyhq25nCZJRXqshEtgMxPDeKBQfyfeUl4AnByG1XM6iyAC0to14T7C9twVTjO7aYThmJVZBqHDiVOTnhs1rh30YVA/jGLDCNkvavjZphsuBLaVEdkz6dLzP4YKbCVU9SmbAhrpfubQkWliJI5a83LeYM/aRa/Ekh/X7V3s3O7nOBM2ujUUZeZi3XRFcFCWHE4rf6wTXjZvwwU4Ue+3dXLHpfXyZ4vA9pNi4hvo0mumJ8zA7BgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECNUqEOTcSc9sgBjudAubWHumRDsGR/mi6fIluvTyNrkbu54=" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2016-05-04T23:59:59.0000000-05:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="61813D123EFEAD6DE0D811EB51A9745D845BBADA" thumbprintAlgorithm="sha1" />
+    </Certificates>
   </Role>
 </ServiceConfiguration>
