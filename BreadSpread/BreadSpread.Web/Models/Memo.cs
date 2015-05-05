@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +14,7 @@ namespace BreadSpread.Web.Models
 
 		public string PhotoFilePath { get; set; }
 
+		[Required]
 		public virtual ApplicationUser Author { get; set; }
 	}
 }

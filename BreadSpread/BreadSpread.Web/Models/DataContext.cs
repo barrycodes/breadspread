@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BreadSpread.Web.Models
 {
-	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+	public class DataContext : IdentityDbContext<ApplicationUser>
 	{
 		public ICollection<Expense> Expenses { get; set; }
 
@@ -13,14 +13,16 @@ namespace BreadSpread.Web.Models
 
 		public ICollection<UserGroup> Groups { get; set; }
 
-		public ApplicationDbContext()
+		public DataContext()
 			: base("DefaultConnection", throwIfV1Schema: false)
 		{
 		}
 
-		public static ApplicationDbContext Create()
+		public static DataContext Create()
 		{
-			return new ApplicationDbContext();
+			return new DataContext();
 		}
+
+		public System.Data.Entity.DbSet<BreadSpread.Web.Models.UserGroup> UserGroups { get; set; }
 	}
 }

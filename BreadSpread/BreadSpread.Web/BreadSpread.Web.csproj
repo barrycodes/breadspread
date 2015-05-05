@@ -191,12 +191,25 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201505051445138_InitialCreate.cs" />
     <Compile Include="Migrations\201505051445138_InitialCreate.Designer.cs">
       <DependentUpon>201505051445138_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505051448310_addUserDisplayName.cs" />
+    <Compile Include="Migrations\201505051448310_addUserDisplayName.Designer.cs">
+      <DependentUpon>201505051448310_addUserDisplayName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505051500115_addAttributes.cs" />
+    <Compile Include="Migrations\201505051500115_addAttributes.Designer.cs">
+      <DependentUpon>201505051500115_addAttributes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505051914133_changeContextName.cs" />
+    <Compile Include="Migrations\201505051914133_changeContextName.Designer.cs">
+      <DependentUpon>201505051914133_changeContextName.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -267,6 +280,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\Delete.cshtml" />
+    <Content Include="Views\Groups\Details.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -281,6 +299,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201505051445138_InitialCreate.resx">
       <DependentUpon>201505051445138_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505051448310_addUserDisplayName.resx">
+      <DependentUpon>201505051448310_addUserDisplayName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505051500115_addAttributes.resx">
+      <DependentUpon>201505051500115_addAttributes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505051914133_changeContextName.resx">
+      <DependentUpon>201505051914133_changeContextName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
