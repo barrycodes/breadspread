@@ -15,17 +15,26 @@ pages:
 	
 entities:
 	user
+		photo
+		memos
+		groups
+
 	group
-		collection of users
-			
-		collection of charges
+		collection of users	
+		collection of expenses
 		collection of payments
-	charge
+		photo
+		memos
+	memo
+		text
+		photo
+		user
+	expenses
 		spender
+		participants
 		recipient (text)
 		amount
 		memos
-		photos
 		date
 	payment
 		spender
@@ -33,7 +42,6 @@ entities:
 		amount
 		date
 		memos
-		photos
 
 pages:
 	admin
