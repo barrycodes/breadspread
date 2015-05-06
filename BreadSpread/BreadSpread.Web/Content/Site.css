@@ -24,6 +24,7 @@ textarea {
 	max-width: 280px;
 }
 
+.logo { margin-top: 0.66em; margin-right:0.5em;resize:both; }
 
 .navbar-inverse {
 	background: #007ACC;
@@ -36,6 +37,7 @@ textarea {
 	.navbar-inverse .navbar-brand {
 		color: #fff;
 		font-size: 1.3em;
+		float:right;
 	}
 
 	.navbar-inverse .navbar-nav > li > a {
