@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BreadSpread.Web.Models;
+using System.IO;
 
 namespace BreadSpread.Web.Controllers
 {
@@ -330,6 +331,18 @@ namespace BreadSpread.Web.Controllers
 
             base.Dispose(disposing);
         }
+
+		public ActionResult UploadPhoto(HttpPostedFileBase file)
+		{
+			if (file != null)
+			{
+				string filename = Path.GetFileName(file.FileName);
+				string targetPath = Path.Combine(Server.MapPath("~/Content/Images/Profile"), filename);
+
+				file.SaveAs(targetPath);
+			}
+			return RedirectToAction("index");
+		}
 
 #region Helpers
         // Used for XSRF protection when adding external logins
