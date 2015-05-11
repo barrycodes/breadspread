@@ -13,6 +13,8 @@ namespace BreadSpread.Web.Models
 
 		public ICollection<UserGroup> Groups { get; set; }
 
+		public ICollection<Invitation> Invitations { get; set; }
+
 		public DataContext()
 			: base("DefaultConnection", throwIfV1Schema: false)
 		{

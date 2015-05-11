@@ -46,6 +46,52 @@ namespace BreadSpread.Web.Controllers
             return View(userGroup);
         }
 
+		private Invitation CreateInvite(UserGroup group, ApplicationUser user)
+		{
+			Invitation result = null;
+
+			if (group != null)
+			{
+				result = new Invitation();
+				if (user != null)
+					result.User = user;
+				result.Token = new Guid();
+				result.Group = group;
+			}
+			return result;
+		}
+
+		private ApplicationUser GetCurrentUser()
+		{
+			ApplicationUser result = null;
+
+			result = UserManager.FindById(User.Identity.GetUserId());
+
+			return result;
+		}
+
+		public ActionResult Invite(long? groupId)
+		{
+			if (groupId == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			UserGroup group = db.Groups.Single(g => g.Id == groupId);
+			if (group == null)
+				return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+			if (group.Users.Contains(GetCurrentUser()))
+			{
+				return View(new CreateInviteViewModel { Group = group });
+			}
+			else return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+		}
+
+		public ActionResult SendInvite(CreateInviteViewModel model)
+		{
+			//Server.
+			return Content("");
+		}
+
         // GET: UserGroups/Create
         public ActionResult Create()
         {
@@ -63,7 +109,9 @@ namespace BreadSpread.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-				UserGroup userGroup = new UserGroup { Name = newGroup.Name, Owner = db.Users.SingleOrDefault(u => u.Id == newGroup.OwnerId) };
+				ApplicationUser owner = db.Users.SingleOrDefault(u => u.Id == newGroup.OwnerId);
+				UserGroup userGroup = new UserGroup { Name = newGroup.Name, Owner = owner };
+				userGroup.Users = new List<ApplicationUser>(new [] { owner });
                 db.UserGroups.Add(userGroup);
                 db.SaveChanges();
                 return RedirectToAction("Index");

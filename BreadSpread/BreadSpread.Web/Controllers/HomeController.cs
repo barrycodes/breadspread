@@ -26,5 +26,10 @@ namespace BreadSpread.Web.Controllers
 
 			return View();
 		}
+
+		public ActionResult AppCacheManifest()
+		{
+			return View();
+		}
 	}
 }
