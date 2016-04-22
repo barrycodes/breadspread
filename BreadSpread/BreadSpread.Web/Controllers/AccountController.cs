@@ -61,6 +61,17 @@ namespace BreadSpread.Web.Controllers
             return View();
         }
 
+		private string LookupUsername(string providedName)
+		{
+			string result = providedName;
+
+			ApplicationUser foundUser = UserManager.FindByEmail(result);
+			if (foundUser != null)
+				result = foundUser.UserName;
+
+			return result;
+		}
+
         //
         // POST: /Account/Login
         [HttpPost]
@@ -73,9 +84,9 @@ namespace BreadSpread.Web.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
+			// This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(LookupUsername(model.Username), model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -151,7 +162,10 @@ namespace BreadSpread.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+				string username = model.Username;
+				if (string.IsNullOrEmpty(username))
+					username = model.Email;
+				var user = new ApplicationUser { UserName = username, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

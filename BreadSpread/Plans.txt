@@ -1,0 +1,58 @@
+
+each user can:
+	submit new costs
+	view all submitted costs
+	submit payment claims
+	view owed amounts
+
+pages:
+	submit new charge
+		attach photos, notes
+	edit charge
+	view charges
+	submit payment
+		attach photos, notes
+	
+entities:
+	user
+		photo
+		memos
+		groups
+
+	group
+		collection of users	
+		collection of expenses
+		collection of payments
+		photo
+		memos
+	memo
+		text
+		photo
+		user
+	expenses
+		spender
+		participants
+		recipient (text)
+		amount
+		memos
+		date
+	payment
+		spender
+		recipient
+		amount
+		date
+		memos
+
+pages:
+	admin
+		groups index
+		edit group
+		delete group
+		create group
+		view group
+	user
+		create group
+
+need to learn:
+	testing
+	membership

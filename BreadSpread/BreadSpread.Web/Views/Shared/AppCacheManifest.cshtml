@@ -1,0 +1,18 @@
+﻿@{
+	// suppress layout because this is not a true html page
+    Layout = null;
+	
+	// manifest files must be served with these response headers
+	HttpContext.Current.Response.ContentType = "text/cache-manifest";
+	HttpContext.Current.Response.CacheControl = "No-Cache";
+}
+CACHE MANIFEST
+# version 1
+
+NETWORK:
+*
+
+CACHE:
+
+FALLBACK:
+
