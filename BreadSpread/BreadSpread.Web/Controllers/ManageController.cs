@@ -11,6 +11,7 @@ using System.IO;
 
 namespace BreadSpread.Web.Controllers
 {
+	[RequireHttps]
     [Authorize]
     public class ManageController : Controller
     {

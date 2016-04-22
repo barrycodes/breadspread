@@ -12,6 +12,7 @@ using BreadSpread.Web.Models;
 
 namespace BreadSpread.Web.Controllers
 {
+	[RequireHttps]
     [Authorize]
     public class AccountController : Controller
     {
