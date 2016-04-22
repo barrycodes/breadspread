@@ -1,2 +1,2 @@
 # breadspread
-Social application for keeping track of communal cost charges
+Application for keeping track of group shared costs
