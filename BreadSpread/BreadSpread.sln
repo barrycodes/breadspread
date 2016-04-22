@@ -8,8 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{3810311F-815
 		Plans.txt = Plans.txt
 	EndProjectSection
 EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "BreadSpread.Cloud", "BreadSpread.Cloud\BreadSpread.Cloud.ccproj", "{1259F074-1816-401F-9867-B5BF8BA670C3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreadSpread.Web", "BreadSpread.Web\BreadSpread.Web.csproj", "{F73F7594-0CEA-4A56-B1F2-37C3BF4EC199}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BreadSpread.Web.Tests", "BreadSpread.Web.Tests\BreadSpread.Web.Tests.csproj", "{393860A2-7C17-45E9-9B25-6C5C79B4AB44}"
@@ -20,9 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1259F074-1816-401F-9867-B5BF8BA670C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1259F074-1816-401F-9867-B5BF8BA670C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1259F074-1816-401F-9867-B5BF8BA670C3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F73F7594-0CEA-4A56-B1F2-37C3BF4EC199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F73F7594-0CEA-4A56-B1F2-37C3BF4EC199}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F73F7594-0CEA-4A56-B1F2-37C3BF4EC199}.Release|Any CPU.ActiveCfg = Release|Any CPU
