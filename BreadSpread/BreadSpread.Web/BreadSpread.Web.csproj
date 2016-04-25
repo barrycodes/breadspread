@@ -138,6 +138,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Spatial, Version=5.7.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.7.0\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
@@ -208,6 +210,21 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="BreadSpreadModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BreadSpreadModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BreadSpreadModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BreadSpreadModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BreadSpreadModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BreadSpreadModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -245,8 +262,24 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="User.cs">
+      <DependentUpon>BreadSpreadModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserGroup.cs">
+      <DependentUpon>BreadSpreadModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BreadSpreadModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BreadSpreadModel.edmx</DependentUpon>
+      <LastGenOutput>BreadSpreadModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="BreadSpreadModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BreadSpreadModel.edmx</DependentUpon>
+      <LastGenOutput>BreadSpreadModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -267,6 +300,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="BreadSpreadModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BreadSpreadModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="BreadSpreadModel.edmx.diagram">
+      <DependentUpon>BreadSpreadModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
@@ -354,6 +394,9 @@
     <EmbeddedResource Include="Migrations\201604252045441_updateEntities.resx">
       <DependentUpon>201604252045441_updateEntities.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
