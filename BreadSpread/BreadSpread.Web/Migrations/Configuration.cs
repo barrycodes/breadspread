@@ -5,15 +5,16 @@ namespace BreadSpread.Web.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<BreadSpread.Web.Models.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<BreadSpread.Web.Models.ApplicationIdentityDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+			AutomaticMigrationDataLossAllowed = true;
             ContextKey = "BreadSpread.Web.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(BreadSpread.Web.Models.DataContext context)
+        protected override void Seed(BreadSpread.Web.Models.ApplicationIdentityDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

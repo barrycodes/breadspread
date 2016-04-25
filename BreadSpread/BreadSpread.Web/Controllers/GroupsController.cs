@@ -16,7 +16,7 @@ namespace BreadSpread.Web.Controllers
 	[Authorize]
     public class GroupsController : Controller
     {
-        private DataContext db = new DataContext();
+        private ApplicationIdentityDbContext db = new ApplicationIdentityDbContext();
 
 		public ApplicationUserManager UserManager
 		{
@@ -29,22 +29,25 @@ namespace BreadSpread.Web.Controllers
         // GET: UserGroups
         public ActionResult Index()
         {
-            return View(db.UserGroups.ToList());
+			return View();
+            //return View(db.UserGroups.ToList());
         }
 
         // GET: UserGroups/Details/5
         public ActionResult Details(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            UserGroup userGroup = db.UserGroups.Find(id);
-            if (userGroup == null)
-            {
-                return HttpNotFound();
-            }
-            return View(userGroup);
+			return View();
+
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //UserGroup userGroup = db.UserGroups.Find(id);
+            //if (userGroup == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(userGroup);
         }
 
 		private Invitation CreateInvite(UserGroup group, ApplicationUser user)
@@ -73,18 +76,20 @@ namespace BreadSpread.Web.Controllers
 
 		public ActionResult Invite(long? groupId)
 		{
-			if (groupId == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			return View();
 
-			UserGroup group = db.Groups.Single(g => g.Id == groupId);
-			if (group == null)
-				return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+			//if (groupId == null)
+			//	return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-			if (group.Users.Contains(GetCurrentUser()))
-			{
-				return View(new CreateInviteViewModel { Group = group });
-			}
-			else return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+			//UserGroup group = db.Groups.Single(g => g.Id == groupId);
+			//if (group == null)
+			//	return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+			//if (group.Users.Contains(GetCurrentUser()))
+			//{
+			//	return View(new CreateInviteViewModel { Group = group });
+			//}
+			//else return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 		}
 
 		public ActionResult SendInvite(CreateInviteViewModel model)
@@ -108,32 +113,36 @@ namespace BreadSpread.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Name,OwnerId")] CreateGroupViewModel newGroup)
         {
-            if (ModelState.IsValid)
-            {
-				ApplicationUser owner = db.Users.SingleOrDefault(u => u.Id == newGroup.OwnerId);
-				UserGroup userGroup = new UserGroup { Name = newGroup.Name, Owner = owner };
-				userGroup.Users = new List<ApplicationUser>(new [] { owner });
-                db.UserGroups.Add(userGroup);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+			return View();
 
-            return View(newGroup);
+    //        if (ModelState.IsValid)
+    //        {
+				//ApplicationUser owner = db.Users.SingleOrDefault(u => u.Id == newGroup.OwnerId);
+				//UserGroup userGroup = new UserGroup { Name = newGroup.Name, Owner = owner };
+				//userGroup.Users = new List<ApplicationUser>(new [] { owner });
+    //            db.UserGroups.Add(userGroup);
+    //            db.SaveChanges();
+    //            return RedirectToAction("Index");
+    //        }
+
+    //        return View(newGroup);
         }
 
         // GET: UserGroups/Edit/5
         public ActionResult Edit(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            UserGroup userGroup = db.UserGroups.Find(id);
-            if (userGroup == null)
-            {
-                return HttpNotFound();
-            }
-            return View(userGroup);
+			return View();
+
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //UserGroup userGroup = db.UserGroups.Find(id);
+            //if (userGroup == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(userGroup);
         }
 
         // POST: UserGroups/Edit/5
@@ -155,16 +164,17 @@ namespace BreadSpread.Web.Controllers
         // GET: UserGroups/Delete/5
         public ActionResult Delete(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            UserGroup userGroup = db.UserGroups.Find(id);
-            if (userGroup == null)
-            {
-                return HttpNotFound();
-            }
-            return View(userGroup);
+			return View();
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //UserGroup userGroup = db.UserGroups.Find(id);
+            //if (userGroup == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //return View(userGroup);
         }
 
         // POST: UserGroups/Delete/5
@@ -172,10 +182,11 @@ namespace BreadSpread.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            UserGroup userGroup = db.UserGroups.Find(id);
-            db.UserGroups.Remove(userGroup);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+			return View();
+            //UserGroup userGroup = db.UserGroups.Find(id);
+            //db.UserGroups.Remove(userGroup);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
