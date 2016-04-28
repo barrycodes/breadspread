@@ -233,9 +233,13 @@ namespace BreadSpread.Web.Controllers
 					var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
 					string body =
-						"Please reset your password by clicking <a href=\""
+						"BreadSpread Password Reset<br><br>"
+						+ "Please reset your password by clicking <a href=\""
 						+ callbackUrl
-						+ "\">here</a>";
+						+ "\">here</a>.<br><br>"
+						+ "If the above link doesn't work, please copy and paste "
+						+ "the following into your address bar and press Enter:<br><br>"
+						+ callbackUrl;
 
 					await UserManager.SendEmailAsync(user.Id, "Reset Password", body);
 					result = RedirectToAction("ForgotPasswordConfirmation", "Account");
