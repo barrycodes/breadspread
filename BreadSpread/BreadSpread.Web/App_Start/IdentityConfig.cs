@@ -23,19 +23,21 @@ namespace BreadSpread.Web
 
 			using (MailMessage mail =
 				new MailMessage(
-					"donotreply@breadspread.azurewebsites.com",
+					"deep.cosmic.mysteries@gmail.com",
 					message.Destination))
 			{
+				mail.Subject = message.Subject;
+				mail.Body = message.Body;
+				mail.IsBodyHtml = true;
 				using (SmtpClient client = new SmtpClient())
 				{
-					client.Port = 25;
 					client.DeliveryMethod = SmtpDeliveryMethod.Network;
+					client.Host = "smtp.gmail.com";
 					client.UseDefaultCredentials = false;
-					client.Host = "smtp.google.com";
 					client.Credentials =
-						new System.Net.NetworkCredential("deep.cosmic.mysteries", "9523808514.aa");
-					mail.Subject = message.Subject;
-					mail.Body = message.Body;
+						new System.Net.NetworkCredential("deep.cosmic.mysteries@gmail.com", "9523808514.aa");
+					client.EnableSsl = true;
+					client.Port = 587;
 					client.Send(mail);
 				}
 			}
