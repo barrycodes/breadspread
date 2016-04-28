@@ -6,6 +6,12 @@ namespace BreadSpread.Web.Models
 {
 	public class ApplicationIdentityDbContext : IdentityDbContext<ApplicationUser>
 	{
+		static ApplicationIdentityDbContext()
+		{
+			// Uncomment below line to erase database upon application start
+			Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationIdentityDbContext>());
+		}
+
 		public ApplicationIdentityDbContext()
 			: base("DefaultConnection", throwIfV1Schema: false)
 		{
