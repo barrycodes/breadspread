@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,8 +19,27 @@ namespace BreadSpread.Web
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+			// TODO: move strings to CONFIG
+
+			using (MailMessage mail =
+				new MailMessage(
+					"donotreply@breadspread.azurewebsites.com",
+					message.Destination))
+			{
+				using (SmtpClient client = new SmtpClient())
+				{
+					client.Port = 25;
+					client.DeliveryMethod = SmtpDeliveryMethod.Network;
+					client.UseDefaultCredentials = false;
+					client.Host = "smtp.google.com";
+					client.Credentials =
+						new System.Net.NetworkCredential("deep.cosmic.mysteries", "9523808514.aa");
+					mail.Subject = message.Subject;
+					mail.Body = message.Body;
+					client.Send(mail);
+				}
+			}
+			return Task.FromResult(0);
         }
     }
 
