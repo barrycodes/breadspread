@@ -9,7 +9,7 @@ namespace BreadSpread.Web.Models
 		static ApplicationIdentityDbContext()
 		{
 			// Uncomment below line to erase database upon application start
-			Database.SetInitializer(new DropCreateDatabaseAlways<ApplicationIdentityDbContext>());
+			//Database.SetInitializer(new DropCreateDatabaseAlways<Models.ApplicationIdentityDbContext>());
 		}
 
 		public ApplicationIdentityDbContext()

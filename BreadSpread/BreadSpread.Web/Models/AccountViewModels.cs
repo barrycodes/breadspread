@@ -42,7 +42,7 @@ namespace BreadSpread.Web.Models
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Username or Email")]
         public string Email { get; set; }
     }
 
@@ -109,7 +109,7 @@ namespace BreadSpread.Web.Models
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Username or Email")]
         public string Email { get; set; }
     }
 }
