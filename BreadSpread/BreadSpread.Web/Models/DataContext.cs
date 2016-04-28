@@ -18,6 +18,7 @@ namespace BreadSpread.Web.Models
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
+			//modelBuilder.Entity<IdentityUser>().ToTable("Users");
 			base.OnModelCreating(modelBuilder);
 		}
 	}
