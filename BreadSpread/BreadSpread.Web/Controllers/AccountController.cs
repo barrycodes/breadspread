@@ -187,7 +187,7 @@ namespace BreadSpread.Web.Controllers
             return View(model);
         }
 
-		public async Task<ActionResult> SendEmailConfirmation(string userId)
+		public ActionResult SendEmailConfirmation(string userId)
 		{
 			return View(userId);
 		}
