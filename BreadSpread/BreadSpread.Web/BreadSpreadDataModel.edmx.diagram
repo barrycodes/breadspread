@@ -15,7 +15,6 @@
         <AssociationConnector Association="BreadSpreadDataModels.UserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="BreadSpreadDataModels.UserGroup" Width="1.5" PointX="7" PointY="1.875" />
         <AssociationConnector Association="BreadSpreadDataModels.UserUserGroup" />
-        <AssociationConnector Association="BreadSpreadDataModels.OwnerUserUserGroup" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
