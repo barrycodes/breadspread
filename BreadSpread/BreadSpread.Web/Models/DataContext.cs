@@ -4,8 +4,9 @@ using System.Data.Entity;
 
 namespace BreadSpread.Web.Models
 {
-	public class ApplicationIdentityDbContext : IdentityDbContext<ApplicationUser>
+	public class ApplicationIdentityDbContext : IdentityDbContext<User>
 	{
+
 		static ApplicationIdentityDbContext()
 		{
 			// Uncomment below line to erase database upon application start
@@ -26,7 +27,7 @@ namespace BreadSpread.Web.Models
 		{
 			base.OnModelCreating(modelBuilder);
 
-			modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+			modelBuilder.Entity<User>().ToTable("Users");
 			modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims");
 			modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
 			modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
