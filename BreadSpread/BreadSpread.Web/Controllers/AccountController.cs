@@ -88,10 +88,7 @@ namespace BreadSpread.Web.Controllers
 			string username = LookupUsername(model.Username);
 			var user = await UserManager.FindByNameAsync(username);
 
-			bool emailConfirmed = true;
-
-			if (user != null)
-				emailConfirmed = await UserManager.IsEmailConfirmedAsync(user.Id);
+			bool emailConfirmed = await UserManager.IsEmailConfirmedAsync(user.Id);
 
 			if (emailConfirmed)
 			{
