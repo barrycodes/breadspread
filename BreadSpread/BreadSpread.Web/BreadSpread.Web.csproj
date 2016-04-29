@@ -263,6 +263,10 @@
     <Compile Include="Migrations\201604281817312_ChangeTableNames.Designer.cs">
       <DependentUpon>201604281817312_ChangeTableNames.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201604291733086_AddUserGroupEntity.cs" />
+    <Compile Include="Migrations\201604291733086_AddUserGroupEntity.Designer.cs">
+      <DependentUpon>201604291733086_AddUserGroupEntity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataContext.cs" />
@@ -419,6 +423,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604281817312_ChangeTableNames.resx">
       <DependentUpon>201604281817312_ChangeTableNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604291733086_AddUserGroupEntity.resx">
+      <DependentUpon>201604291733086_AddUserGroupEntity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
