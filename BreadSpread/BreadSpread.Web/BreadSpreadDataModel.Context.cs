@@ -30,6 +30,5 @@ namespace BreadSpread.Web
         public virtual DbSet<UserClaim> UserClaims { get; set; }
         public virtual DbSet<UserLogin> UserLogins { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserGroup> UserGroups { get; set; }
     }
 }

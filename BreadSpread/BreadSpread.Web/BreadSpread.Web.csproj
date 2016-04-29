@@ -284,9 +284,6 @@
     <Compile Include="UserClaim.cs">
       <DependentUpon>BreadSpreadDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserGroup.cs">
-      <DependentUpon>BreadSpreadDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="UserLogin.cs">
       <DependentUpon>BreadSpreadDataModel.tt</DependentUpon>
     </Compile>
@@ -297,7 +294,6 @@
       <DependentUpon>BreadSpreadDataModel.edmx</DependentUpon>
       <LastGenOutput>BreadSpreadDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="BreadSpreadDataModel.edmx.sql" />
     <Content Include="BreadSpreadDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BreadSpreadDataModel.edmx</DependentUpon>

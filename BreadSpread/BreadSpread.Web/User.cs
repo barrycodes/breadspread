@@ -20,7 +20,6 @@ namespace BreadSpread.Web
             this.UserClaims = new HashSet<UserClaim>();
             this.UserLogins = new HashSet<UserLogin>();
             this.Roles = new HashSet<Role>();
-            this.UserGroups = new HashSet<UserGroup>();
         }
     
         public string Id { get; set; }
@@ -42,7 +41,5 @@ namespace BreadSpread.Web
         public virtual ICollection<UserLogin> UserLogins { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Role> Roles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UserGroup> UserGroups { get; set; }
     }
 }
