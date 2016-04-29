@@ -85,22 +85,31 @@ namespace BreadSpread.Web.Controllers
                 return View(model);
             }
 
-			// This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(LookupUsername(model.Username), model.Password, model.RememberMe, shouldLockout: true);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
-            }
+			string username = LookupUsername(model.Username);
+			var user = await UserManager.FindByNameAsync(username);
+
+			bool emailConfirmed = await UserManager.IsEmailConfirmedAsync(user.Id);
+
+			if (emailConfirmed)
+			{
+				// This doesn't count login failures towards account lockout
+				// To enable password failures to trigger account lockout, change to shouldLockout: true
+				var result = await SignInManager.PasswordSignInAsync(username, model.Password, model.RememberMe, shouldLockout: true);
+				switch (result)
+				{
+					case SignInStatus.Success:
+						return RedirectToLocal(returnUrl);
+					case SignInStatus.LockedOut:
+						return View("Lockout");
+					case SignInStatus.RequiresVerification:
+						return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+					case SignInStatus.Failure:
+					default:
+						ModelState.AddModelError("", "Invalid login attempt.");
+						return View(model);
+				}
+			}
+			else return RedirectToAction("SentEmailConfirmation", "Account", new { userId = user.Id });
         }
 
         //
@@ -170,15 +179,11 @@ namespace BreadSpread.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+					//await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
-					// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-					// Send an email with this link
-					string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+					await SendEmailConfirmation(user.Id);
 
-					return RedirectToAction("SendEmailConfirmation", user.Id);
+					return RedirectToAction("SentEmailConfirmation", "Account", new { userId = user.Id });
                 }
                 AddErrors(result);
             }
@@ -187,9 +192,38 @@ namespace BreadSpread.Web.Controllers
             return View(model);
         }
 
-		public ActionResult SendEmailConfirmation(string userId)
+		private async Task SendEmailConfirmation(string userId)
 		{
-			return View(userId);
+			// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+			// Send an email with this link
+
+			string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
+			var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+
+			string message =
+				"BreadSpread Email Confirmation<br/><br/>"
+				+ "Please confirm your account by clicking <a href=\""
+				+ callbackUrl
+				+ "\">here</a>.<br/><br/>"
+				+ "If the above link doesn't work, please copy and paste "
+				+ "the following into your address bar and press Enter:<br/><br/>"
+				+ callbackUrl;
+
+			await UserManager.SendEmailAsync(userId, "Confirm your account", message);
+		}
+
+		[AllowAnonymous]
+		public async Task<ActionResult> ResendEmailConfirmation(string userId)
+		{
+			await SendEmailConfirmation(userId);
+			return RedirectToAction("SentEmailConfirmation", new { userId = userId });
+		}
+
+		[AllowAnonymous]
+		public ActionResult SentEmailConfirmation(string userId)
+		{
+			ViewBag.UserId = userId;
+			return View();
 		}
 
         //
@@ -238,12 +272,12 @@ namespace BreadSpread.Web.Controllers
 					var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 
 					string body =
-						"BreadSpread Password Reset<br><br>"
+						"BreadSpread Password Reset<br/><br/>"
 						+ "Please reset your password by clicking <a href=\""
 						+ callbackUrl
-						+ "\">here</a>.<br><br>"
+						+ "\">here</a>.<br/><br/>"
 						+ "If the above link doesn't work, please copy and paste "
-						+ "the following into your address bar and press Enter:<br><br>"
+						+ "the following into your address bar and press Enter:<br/><br/>"
 						+ callbackUrl;
 
 					await UserManager.SendEmailAsync(user.Id, "Reset Password", body);

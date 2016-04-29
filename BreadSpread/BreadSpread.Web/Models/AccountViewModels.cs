@@ -23,6 +23,11 @@ namespace BreadSpread.Web.Models
         public bool RememberMe { get; set; }
     }
 
+	public class SentEmailVerificationViewModel
+	{
+		public string UserId { get; set; }
+	}
+
     public class VerifyCodeViewModel
     {
         [Required]
