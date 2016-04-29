@@ -38,6 +38,10 @@
       <End Role="UserGroup" EntitySet="UserGroups" />
       <End Role="UserUserGroup" EntitySet="UserUserGroup" />
     </AssociationSet>
+    <AssociationSet Name="OwnerUserUserGroup" Association="BreadSpreadDataModels.Store.OwnerUserUserGroup">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserGroup" EntitySet="UserGroups" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="C__MigrationHistory">
     <Key>
@@ -98,6 +102,9 @@
     </Key>
     <Property Name="Id" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PhotoId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="CreatedTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="UserRoles">
     <Key>
@@ -139,6 +146,18 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="UserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OwnerUserUserGroup">
+    <End Role="User" Type="BreadSpreadDataModels.Store.Users" Multiplicity="1" />
+    <End Role="UserGroup" Type="BreadSpreadDataModels.Store.UserGroups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserGroup">
         <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
@@ -254,6 +273,7 @@
           <NavigationProperty Name="UserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="Users" ToRole="UserLogins" />
           <NavigationProperty Name="Roles" Relationship="Self.UserRoles" FromRole="Users" ToRole="Roles" />
           <NavigationProperty Name="UserGroups" Relationship="BreadSpreadDataModels.UserUserGroup" FromRole="User" ToRole="UserGroup" />
+          <NavigationProperty Name="OwnedGroups" Relationship="BreadSpreadDataModels.OwnerUserUserGroup" FromRole="User" ToRole="UserGroup" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="Users" Type="Self.User" Multiplicity="1">
@@ -310,6 +330,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserGroup" EntitySet="UserGroups" />
           </AssociationSet>
+          <AssociationSet Name="OwnerUserUserGroup" Association="BreadSpreadDataModels.OwnerUserUserGroup">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserGroup" EntitySet="UserGroups" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="UserGroup">
           <Key>
@@ -318,10 +342,26 @@
           <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="BreadSpreadDataModels.UserUserGroup" FromRole="UserGroup" ToRole="User" />
+          <Property Name="PhotoId" Type="String" Nullable="false" />
+          <NavigationProperty Name="OwnerUser" Relationship="BreadSpreadDataModels.OwnerUserUserGroup" FromRole="UserGroup" ToRole="User" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" />
         </EntityType>
         <Association Name="UserUserGroup">
           <End Type="BreadSpreadDataModels.User" Role="User" Multiplicity="*" />
           <End Type="BreadSpreadDataModels.UserGroup" Role="UserGroup" Multiplicity="*" />
+        </Association>
+        <Association Name="OwnerUserUserGroup">
+          <End Type="BreadSpreadDataModels.User" Role="User" Multiplicity="1" />
+          <End Type="BreadSpreadDataModels.UserGroup" Role="UserGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserGroup">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -389,6 +429,9 @@
         <MappingFragment StoreEntitySet="UserGroups">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

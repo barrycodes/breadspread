@@ -13,9 +13,9 @@ namespace BreadSpread.Web
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class BreadSpreadDataContext : DbContext
+    public partial class EntitiesConnection : DbContext
     {
-        public BreadSpreadDataContext()
+        public EntitiesConnection()
             : base("name=EntitiesConnection")
         {
         }
