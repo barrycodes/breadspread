@@ -13,6 +13,8 @@
         <AssociationConnector Association="BreadSpreadDataModels.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="BreadSpreadDataModels.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="BreadSpreadDataModels.UserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="BreadSpreadDataModels.UserGroup" Width="1.5" PointX="7" PointY="1.875" />
+        <AssociationConnector Association="BreadSpreadDataModels.UserUserGroup" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
