@@ -102,8 +102,8 @@
     </Key>
     <Property Name="Id" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="PhotoId" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="OwnerUserId" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="PhotoId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" Nullable="false" MaxLength="128" />
     <Property Name="CreatedTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="UserRoles">
@@ -158,7 +158,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="UserGroup">
-        <PropertyRef Name="OwnerUserId" />
+        <PropertyRef Name="UserId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -342,9 +342,9 @@
           <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="BreadSpreadDataModels.UserUserGroup" FromRole="UserGroup" ToRole="User" />
-          <Property Name="PhotoId" Type="String" Nullable="true" />
+          <Property Name="PhotoId" Type="String" Nullable="false" />
           <NavigationProperty Name="OwnerUser" Relationship="BreadSpreadDataModels.OwnerUserUserGroup" FromRole="UserGroup" ToRole="User" />
-          <Property Name="OwnerUserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" />
         </EntityType>
         <Association Name="UserUserGroup">
@@ -359,7 +359,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="UserGroup">
-              <PropertyRef Name="OwnerUserId" />
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -430,7 +430,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="PhotoId" ColumnName="PhotoId" />
-          <ScalarProperty Name="OwnerUserId" ColumnName="OwnerUserId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
         </MappingFragment>
       </EntityTypeMapping>

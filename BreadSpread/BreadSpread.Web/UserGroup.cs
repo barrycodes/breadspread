@@ -23,7 +23,7 @@ namespace BreadSpread.Web
         public string Id { get; set; }
         public string Name { get; set; }
         public string PhotoId { get; set; }
-        public string OwnerUserId { get; set; }
+        public string UserId { get; set; }
         public System.DateTime CreatedTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

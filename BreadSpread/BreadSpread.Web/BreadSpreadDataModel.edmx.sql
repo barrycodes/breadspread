@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/29/2016 12:27:56
+-- Date Created: 04/29/2016 12:24:39
 -- Generated from EDMX file: C:\Users\master\Documents\GitHub\breadspread\BreadSpread\BreadSpread.Web\BreadSpreadDataModel.edmx
 -- --------------------------------------------------
 
@@ -34,9 +34,6 @@ IF OBJECT_ID(N'[dbo].[FK_UserUserGroup_User]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_UserUserGroup_UserGroup]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[UserUserGroup] DROP CONSTRAINT [FK_UserUserGroup_UserGroup];
-GO
-IF OBJECT_ID(N'[dbo].[FK_OwnerUserUserGroup]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UserGroups] DROP CONSTRAINT [FK_OwnerUserUserGroup];
 GO
 
 -- --------------------------------------------------
@@ -126,8 +123,8 @@ GO
 CREATE TABLE [dbo].[UserGroups] (
     [Id] nvarchar(max)  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [PhotoId] nvarchar(max)  NULL,
-    [OwnerUserId] nvarchar(128)  NOT NULL,
+    [PhotoId] nvarchar(max)  NOT NULL,
+    [UserId] nvarchar(128)  NOT NULL,
     [CreatedTime] datetime  NOT NULL
 );
 GO
@@ -280,10 +277,10 @@ ON [dbo].[UserUserGroup]
     ([UserGroups_Id]);
 GO
 
--- Creating foreign key on [OwnerUserId] in table 'UserGroups'
+-- Creating foreign key on [UserId] in table 'UserGroups'
 ALTER TABLE [dbo].[UserGroups]
 ADD CONSTRAINT [FK_OwnerUserUserGroup]
-    FOREIGN KEY ([OwnerUserId])
+    FOREIGN KEY ([UserId])
     REFERENCES [dbo].[Users]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -292,7 +289,7 @@ GO
 -- Creating non-clustered index for FOREIGN KEY 'FK_OwnerUserUserGroup'
 CREATE INDEX [IX_FK_OwnerUserUserGroup]
 ON [dbo].[UserGroups]
-    ([OwnerUserId]);
+    ([UserId]);
 GO
 
 -- --------------------------------------------------
