@@ -47,6 +47,14 @@ namespace BreadSpread.Web.Models
 			//		m.MapLeftKey("GroupId");
 			//		m.MapRightKey("UserId");
 			//	});
+
+			modelBuilder.Entity<User>()
+				.HasMany(u => u.OwnedGroups)
+				.WithRequired(g => g.OwnerUser)
+				.WillCascadeOnDelete(false);
+			//modelBuilder.Entity<Group>()
+			//	.HasRequired(g => g.OwnerUser)
+			//	.WithMany(u => u.OwnedGroups);
 		}
 	}
 }
