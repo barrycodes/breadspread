@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BreadSpread.Web.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BreadSpread.Web.Controllers
 {
@@ -16,10 +18,45 @@ namespace BreadSpread.Web.Controllers
     {
         private ApplicationIdentityDbContext db = new ApplicationIdentityDbContext();
 
-        // GET: Group
-        public async Task<ActionResult> Index()
+		/// <summary>
+		/// User manager - attached to application DB context
+		/// </summary>
+		protected UserManager<User> UserManager { get; set; }
+		
+		public GroupController()
+		{
+			UserManager = new UserManager<User>(new UserStore<User>(db));
+		}
+
+		private GroupIndexViewModel CreateGroupViewModel(Group g)
+		{
+			return new GroupIndexViewModel
+			{
+				Id = g.Id,
+				CreatedTime = g.CreatedTime,
+				Name = g.Name,
+				OwnerName = g.OwnerUser.UserName,
+				PhotoId = g.PhotoId,
+				UserCount = g.Users.Count,
+				IsOwner = g.OwnerUser.Id == User.Identity.GetUserId(),
+			};
+		}
+
+		// GET: Group
+		public async Task<ActionResult> Index()
         {
-            return View(await db.Groups.ToListAsync());
+			User user = await GetCurrentUser();
+
+			var q =
+				db.Groups.Where(g => g.Users.Contains(user))
+					.Include(g => g.OwnerUser)
+					.Include(g => g.Users);
+
+			List<Group> groups = await q.ToListAsync();
+
+			var results = groups.Select(g => CreateGroupViewModel(g));
+
+			return View(results);
         }
 
         // GET: Group/Details/5
@@ -43,6 +80,12 @@ namespace BreadSpread.Web.Controllers
             return View();
         }
 
+		private async Task<User> GetCurrentUser()
+		{
+			var result = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+			return result;
+		}
+
         // POST: Group/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -52,9 +95,19 @@ namespace BreadSpread.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+				User user = await GetCurrentUser();
+
+				group.Id = Guid.NewGuid().ToString();
+				group.CreatedTime = DateTime.Now;
+				group.OwnerUser = user;
+				if (group.Users == null)
+					group.Users = new List<User>();
+				group.Users.Add(user);
+
                 db.Groups.Add(group);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+				await db.SaveChangesAsync();
+
+				return RedirectToAction("Index");
             }
 
             return View(group);
@@ -91,33 +144,79 @@ namespace BreadSpread.Web.Controllers
             return View(group);
         }
 
-        // GET: Group/Delete/5
-        public async Task<ActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Group group = await db.Groups.FindAsync(id);
-            if (group == null)
-            {
-                return HttpNotFound();
-            }
-            return View(group);
-        }
+		// GET: Group/Delete/5
+		public async Task<ActionResult> Delete(string id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Group group = await db.Groups.FindAsync(id);
+			if (group.OwnerUser.Id != User.Identity.GetUserId())
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+			}
+			if (group == null)
+			{
+				return HttpNotFound();
+			}
+			return View(CreateGroupViewModel(group));
+		}
 
-        // POST: Group/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id)
-        {
-            Group group = await db.Groups.FindAsync(id);
-            db.Groups.Remove(group);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
+		// POST: Group/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> DeleteConfirmed(string id)
+		{
+			Group group = await db.Groups.FindAsync(id);
+			if (group == null)
+			{
+				return HttpNotFound();
+			}
+			if (group.OwnerUser.Id != User.Identity.GetUserId())
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+			}
+			db.Groups.Remove(group);
+			await db.SaveChangesAsync();
+			return RedirectToAction("Index");
+		}
 
-        protected override void Dispose(bool disposing)
+		// GET: Group/Leave/5
+		public async Task<ActionResult> Leave(string id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Group group = await db.Groups.FindAsync(id);
+			User user = await GetCurrentUser();
+			if (!user.Groups.Contains(group))
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			if (group == null)
+			{
+				return HttpNotFound();
+			}
+			return View(CreateGroupViewModel(group));
+		}
+
+		// POST: Group/Leave/5
+		[HttpPost, ActionName("Leave")]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> LeaveConfirmed(string id)
+		{
+			Group group = await db.Groups.FindAsync(id);
+			User user = await GetCurrentUser();
+			if (!group.Users.Contains(user))
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			group.Users.Remove(user);
+			await db.SaveChangesAsync();
+			return RedirectToAction("Index");
+		}
+
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

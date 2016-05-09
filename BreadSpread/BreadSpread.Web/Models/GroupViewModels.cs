@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BreadSpread.Web.Models
 {
-	public class Group
+	public class GroupIndexViewModel
 	{
-		[Key]
 		public string Id { get; set; }
 
-		[Required]
+		[Display(Name="Group Name")]
 		public string Name { get; set; }
 
 		public string PhotoId { get; set; }
 
+		[Display(Name="Created")]
+		[DisplayFormat(DataFormatString = "{0:MMM dd yyyy}")]
 		public DateTime CreatedTime { get; set; }
 
-		public virtual User OwnerUser { get; set; }
+		[Display(Name="Owner")]
+		public string OwnerName { get; set; }
 
-		public virtual ICollection<User> Users { get; set; }
+		[Display(Name="Users")]
+		public int UserCount { get; set; }
+
+		public bool IsOwner { get; set; }
 	}
 }
