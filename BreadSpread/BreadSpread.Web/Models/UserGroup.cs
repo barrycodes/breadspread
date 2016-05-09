@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BreadSpread.Web.Models
 {
-	public class UserGroup
-	{
-		[Key]
-		public string UserId { get; set; }
+	//public class UserGroup
+	//{
+	//	[Key]
+	//	public string UserId { get; set; }
 
-		[Key]
-		public string GroupId { get; set; }
-	}
+	//	[Key]
+	//	public string GroupId { get; set; }
+	//}
 }
