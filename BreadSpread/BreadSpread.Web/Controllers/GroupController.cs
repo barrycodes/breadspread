@@ -48,13 +48,16 @@ namespace BreadSpread.Web.Controllers
 			User user = await GetCurrentUser();
 
 			var q =
-				db.Groups.Where(g => g.Users.Contains(user))
+				user.Groups
+					.AsQueryable()
+					.OrderByDescending(g => g.CreatedTime)
 					.Include(g => g.OwnerUser)
 					.Include(g => g.Users);
 
-			List<Group> groups = await q.ToListAsync();
+			var groups = q.ToList();
 
-			var results = groups.Select(g => CreateGroupViewModel(g));
+			var results =
+				groups.Select(g => CreateGroupViewModel(g));
 
 			return View(results);
         }
@@ -71,7 +74,7 @@ namespace BreadSpread.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View(group);
+            return View(CreateGroupViewModel(group));
         }
 
         // GET: Group/Create
@@ -125,7 +128,9 @@ namespace BreadSpread.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View(group);
+			if (group.OwnerUser != await GetCurrentUser())
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			return View(group);
         }
 
         // POST: Group/Edit/5
@@ -137,7 +142,12 @@ namespace BreadSpread.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(group).State = EntityState.Modified;
+				Group foundGroup = await db.Groups.FirstOrDefaultAsync(g => g.Id == group.Id);
+				if (foundGroup == null )
+				if (group.OwnerUser != await GetCurrentUser())
+					return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+				db.Entry(group).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -154,7 +164,7 @@ namespace BreadSpread.Web.Controllers
 			Group group = await db.Groups.FindAsync(id);
 			if (group.OwnerUser.Id != User.Identity.GetUserId())
 			{
-				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 			if (group == null)
 			{
@@ -175,7 +185,7 @@ namespace BreadSpread.Web.Controllers
 			}
 			if (group.OwnerUser.Id != User.Identity.GetUserId())
 			{
-				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 			db.Groups.Remove(group);
 			await db.SaveChangesAsync();

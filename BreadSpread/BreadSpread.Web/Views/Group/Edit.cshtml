@@ -1,10 +1,10 @@
 ﻿@model BreadSpread.Web.Models.Group
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "BreadSpread - Edit Group";
 }
 
-<h2>Edit</h2>
+<h2>Edit Group</h2>
 
 @using (Html.BeginForm())
 {
@@ -24,21 +24,23 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.PhotoId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PhotoId, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PhotoId, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.CreatedTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CreatedTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DisplayFor(model => model.CreatedTime)
                 @Html.ValidationMessageFor(model => model.CreatedTime, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
+				@Html.HiddenFor(m => m.PhotoId)
+				@Html.HiddenFor(m => m.CreatedTime)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

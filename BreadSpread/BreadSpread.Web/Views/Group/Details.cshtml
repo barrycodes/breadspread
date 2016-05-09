@@ -1,42 +1,47 @@
-﻿@model BreadSpread.Web.Models.Group
+﻿@model BreadSpread.Web.Models.GroupIndexViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "BreadSpread - Group Details";
 }
 
-<h2>Details</h2>
+<h2>Group Details</h2>
 
 <div>
-    <h4>Group</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+			<dt>
+				@Html.DisplayNameFor(model => model.Name)
+			</dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+			<dd>
+				@Html.DisplayFor(model => model.Name)
+			</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhotoId)
-        </dt>
+			<dt>
+				@Html.DisplayNameFor(model => model.UserCount)
+			</dt>
+			<dd>
+				@Html.DisplayFor(model => model.UserCount)
+			</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhotoId)
-        </dd>
+			@*<dt>
+				@Html.DisplayNameFor(model => model.PhotoId)
+		</dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedTime)
-        </dt>
+		<dd>
+				@Html.DisplayFor(model => model.PhotoId)
+		</dd>*@
 
-        <dd>
-            @Html.DisplayFor(model => model.CreatedTime)
-        </dd>
+			<dt>
+				@Html.DisplayNameFor(model => model.CreatedTime)
+			</dt>
+
+			<dd>
+				@Html.DisplayFor(model => model.CreatedTime)
+			</dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
