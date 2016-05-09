@@ -32,6 +32,21 @@ namespace BreadSpread.Web.Models
 			modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
 			modelBuilder.Entity<IdentityUserRole>().ToTable("UserRoles");
 			modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+
+			//modelBuilder.Entity<Group>()
+			//	.HasRequired(g => g.OwnerUser)
+			//	.WithMany(u => u.Groups)
+			//	.HasForeignKey(g => g.OwnerUserId);
+
+			modelBuilder.Entity<Group>()
+				.HasMany(g => g.Users)
+				.WithMany(u => u.Groups)
+				.Map(m =>
+				{
+					m.ToTable("UserGroups");
+					m.MapLeftKey("GroupId");
+					m.MapRightKey("UserId");
+				});
 		}
 	}
 }

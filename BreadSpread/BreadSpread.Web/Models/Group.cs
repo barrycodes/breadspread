@@ -18,12 +18,8 @@ namespace BreadSpread.Web.Models
 
 		public string PhotoId { get; set; }
 
-		public string OwnerUserId { get; set; }
-
 		[Required]
 		public DateTime CreatedTime { get; set; }
-
-		public virtual User OwnerUser { get; set; }
 
 		public virtual ICollection<User> Users { get; set; }
 	}

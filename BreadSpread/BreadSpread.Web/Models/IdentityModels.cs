@@ -19,8 +19,7 @@ namespace BreadSpread.Web.Models
 
 		public virtual ICollection<Group> Groups { get; set; }
 
-		[InverseProperty("OwnerUserId")]
-		public virtual ICollection<Group> OwnedGroups { get; set; }
+		//public virtual ICollection<Group> OwnedGroups { get; set; }
 
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
