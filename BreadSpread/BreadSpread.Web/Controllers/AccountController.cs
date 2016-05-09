@@ -12,7 +12,6 @@ using BreadSpread.Web.Models;
 
 namespace BreadSpread.Web.Controllers
 {
-	[RequireHttps]
     [Authorize]
     public class AccountController : Controller
     {
@@ -176,6 +175,10 @@ namespace BreadSpread.Web.Controllers
 				if (string.IsNullOrEmpty(username))
 					username = model.Email;
 				var user = new User { UserName = username, Email = model.Email };
+				user.CreatedTime = DateTime.Now;
+				//user.Groups = new Group[] { };
+				//user.OwnedGroups = new Group[] { };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
