@@ -1,47 +1,49 @@
-﻿@model BreadSpread.Web.Models.GroupIndexViewModel
+﻿@model BreadSpread.Web.Models.GroupDetailViewModel
 
 @{
-    ViewBag.Title = "BreadSpread - Group Details";
+	ViewBag.Title = "BreadSpread - Group Details";
 }
 
 <h2>Group Details</h2>
 
 <div>
-    <hr />
-    <dl class="dl-horizontal">
-			<dt>
-				@Html.DisplayNameFor(model => model.Name)
-			</dt>
-
-			<dd>
-				@Html.DisplayFor(model => model.Name)
-			</dd>
-
-			<dt>
-				@Html.DisplayNameFor(model => model.UserCount)
-			</dt>
-			<dd>
-				@Html.DisplayFor(model => model.UserCount)
-			</dd>
-
-			@*<dt>
-				@Html.DisplayNameFor(model => model.PhotoId)
+	<hr />
+	<dl class="dl-horizontal">
+		<dt>
+			@Html.DisplayNameFor(model => model.Name)
 		</dt>
-
 		<dd>
-				@Html.DisplayFor(model => model.PhotoId)
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+		<dt>
+			@Html.DisplayNameFor(model => model.UserCount)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.UserCount)
+		</dd>
+		@*<dt>
+			@Html.DisplayNameFor(model => model.PhotoId)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.PhotoId)
 		</dd>*@
-
-			<dt>
-				@Html.DisplayNameFor(model => model.CreatedTime)
-			</dt>
-
-			<dd>
-				@Html.DisplayFor(model => model.CreatedTime)
-			</dd>
-
-    </dl>
+		<dt>
+			@Html.DisplayNameFor(model => model.CreatedTime)
+		</dt>
+		<dd>
+			@Html.DisplayFor(model => model.CreatedTime)
+		</dd>
+	</dl>
+</div>
+<div class="col-md-4">
+	<h3>Members:</h3>
+	@foreach (BreadSpread.Web.Models.GroupUserViewModel user in Model.Users)
+	{
+		<p>
+			@user.Name
+		</p>
+	}
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Index")
+	@Html.ActionLink("Back to List", "Index")
 </p>

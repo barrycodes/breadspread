@@ -28,9 +28,9 @@ namespace BreadSpread.Web.Controllers
 			UserManager = new UserManager<User>(new UserStore<User>(db));
 		}
 
-		private GroupIndexViewModel CreateGroupViewModel(Group g)
+		private GroupViewModel CreateGroupViewModel(Group g)
 		{
-			return new GroupIndexViewModel
+			return new GroupViewModel
 			{
 				Id = g.Id,
 				CreatedTime = g.CreatedTime,
@@ -74,7 +74,14 @@ namespace BreadSpread.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View(CreateGroupViewModel(group));
+			GroupDetailViewModel viewModel = (GroupDetailViewModel)CreateGroupViewModel(group);
+			viewModel.Users =
+				group.Users.Select(
+					u =>
+						new GroupUserViewModel { Name = u.UserName, IsOwner = (u == group.OwnerUser) })
+				.ToArray();
+
+            return View(viewModel);
         }
 
         // GET: Group/Create
@@ -143,8 +150,8 @@ namespace BreadSpread.Web.Controllers
             if (ModelState.IsValid)
             {
 				Group foundGroup = await db.Groups.FirstOrDefaultAsync(g => g.Id == group.Id);
-				if (foundGroup == null )
-				if (group.OwnerUser != await GetCurrentUser())
+				User user = await GetCurrentUser();
+				if (foundGroup == null || foundGroup.OwnerUser != user)
 					return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
 				db.Entry(group).State = EntityState.Modified;

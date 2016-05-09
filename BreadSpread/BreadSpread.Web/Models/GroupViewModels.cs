@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BreadSpread.Web.Models
 {
-	public class GroupIndexViewModel
+	public class GroupViewModel
 	{
 		public string Id { get; set; }
 
@@ -27,5 +27,17 @@ namespace BreadSpread.Web.Models
 		public int UserCount { get; set; }
 
 		public bool IsOwner { get; set; }
+	}
+
+	public class GroupUserViewModel
+	{
+		public string Name { get; set; }
+
+		public bool IsOwner { get; set; }
+	}
+
+	public class GroupDetailViewModel : GroupViewModel
+	{
+		public GroupUserViewModel[] Users { get; set; }
 	}
 }
