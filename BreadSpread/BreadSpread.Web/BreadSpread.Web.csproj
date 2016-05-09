@@ -242,13 +242,20 @@
     <Compile Include="Migrations\201604281817312_ChangeTableNames.Designer.cs">
       <DependentUpon>201604281817312_ChangeTableNames.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605091600089_AddGroupEntity.cs" />
+    <Compile Include="Migrations\201605091600089_AddGroupEntity.Designer.cs">
+      <DependentUpon>201605091600089_AddGroupEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605091602287_Checking.cs" />
+    <Compile Include="Migrations\201605091602287_Checking.Designer.cs">
+      <DependentUpon>201605091602287_Checking.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Group.cs" />
-    <Compile Include="Models\UserGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -363,6 +370,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604281817312_ChangeTableNames.resx">
       <DependentUpon>201604281817312_ChangeTableNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605091600089_AddGroupEntity.resx">
+      <DependentUpon>201605091600089_AddGroupEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605091602287_Checking.resx">
+      <DependentUpon>201605091602287_Checking.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
