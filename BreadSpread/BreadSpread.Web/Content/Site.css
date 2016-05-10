@@ -24,6 +24,8 @@ textarea {
 	max-width: 280px;
 }
 
+/* Customizations */
+
 .logo {
 	margin-top: 0.6em;
 	margin-right: 0.5em;
@@ -56,4 +58,15 @@ textarea {
 	color: #fff;
 	opacity: 1.0;
 	text-shadow: 0 0 1em rgba(255,255,0,0.5);
+}
+
+.wrapped {
+	border: 0.15em solid #666666;
+	border-radius: 0.8em;
+	padding: 1em;
+	margin-bottom: 1em;
+}
+
+.wrapped ul {
+	list-style: none;
 }

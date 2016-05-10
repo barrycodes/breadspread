@@ -35,15 +35,7 @@
 		</dd>
 	</dl>
 </div>
-<div class="col-md-4">
-	<h3>Members:</h3>
-	@foreach (BreadSpread.Web.Models.GroupUserViewModel user in Model.Users)
-	{
-		<p>
-			@user.Name
-		</p>
-	}
-</div>
+@Html.Partial("_GroupUserList", Model)
 <p>
 	@Html.ActionLink("Back to List", "Index")
 </p>

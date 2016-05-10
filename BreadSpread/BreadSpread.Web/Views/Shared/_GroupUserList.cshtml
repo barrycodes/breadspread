@@ -1,0 +1,13 @@
+﻿@model BreadSpread.Web.Models.GroupDetailViewModel
+
+<div class="wrapped">
+	<h4>Members:</h4>
+	<ul>
+		@foreach (BreadSpread.Web.Models.GroupUserViewModel user in Model.Users)
+		{
+				<li>
+					@user.Name
+				</li>
+		}
+	</ul>
+</div>

@@ -42,6 +42,21 @@ namespace BreadSpread.Web.Controllers
 			};
 		}
 
+		private GroupDetailViewModel CreateGroupDetailViewModel(Group g)
+		{
+			return
+				new GroupDetailViewModel(CreateGroupViewModel(g))
+				{
+					Users =
+						g.Users
+							.OrderBy(u => u.UserName)
+							.Select(
+								u =>
+								new GroupUserViewModel { Name = u.UserName, IsOwner = (u == g.OwnerUser) })
+							.ToArray()
+				};
+		}
+
 		// GET: Group
 		public async Task<ActionResult> Index()
         {
@@ -74,12 +89,7 @@ namespace BreadSpread.Web.Controllers
             {
                 return HttpNotFound();
             }
-			GroupDetailViewModel viewModel = (GroupDetailViewModel)CreateGroupViewModel(group);
-			viewModel.Users =
-				group.Users.Select(
-					u =>
-						new GroupUserViewModel { Name = u.UserName, IsOwner = (u == group.OwnerUser) })
-				.ToArray();
+			GroupDetailViewModel viewModel = CreateGroupDetailViewModel(group);
 
             return View(viewModel);
         }
@@ -137,7 +147,7 @@ namespace BreadSpread.Web.Controllers
             }
 			if (group.OwnerUser != await GetCurrentUser())
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			return View(group);
+			return View(CreateGroupDetailViewModel(group));
         }
 
         // POST: Group/Edit/5
@@ -145,20 +155,23 @@ namespace BreadSpread.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,PhotoId,CreatedTime")] Group group)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,PhotoId,CreatedTime")] GroupDetailViewModel groupModel)
         {
             if (ModelState.IsValid)
             {
-				Group foundGroup = await db.Groups.FirstOrDefaultAsync(g => g.Id == group.Id);
+				Group group = await db.Groups.FirstOrDefaultAsync(g => g.Id == groupModel.Id);
 				User user = await GetCurrentUser();
-				if (foundGroup == null || foundGroup.OwnerUser != user)
+				if (group == null || group.OwnerUser != user)
 					return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+				group.Name = groupModel.Name;
+				group.PhotoId = groupModel.PhotoId;
 
 				db.Entry(group).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(group);
+            return View(groupModel);
         }
 
 		// GET: Group/Delete/5

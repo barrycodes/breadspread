@@ -1,4 +1,4 @@
-﻿@model BreadSpread.Web.Models.Group
+﻿@model BreadSpread.Web.Models.GroupDetailViewModel
 
 @{
     ViewBag.Title = "BreadSpread - Edit Group";
@@ -10,7 +10,7 @@
 {
     @Html.AntiForgeryToken()
     
-    <div class="form-horizontal">
+    <div class="form-horizontal wrapped">
         <h4>Group</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -49,6 +49,8 @@
         </div>
     </div>
 }
+
+@Html.Partial("_GroupUserList", Model)
 
 <div>
     @Html.ActionLink("Back to List", "Index")

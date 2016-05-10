@@ -38,6 +38,17 @@ namespace BreadSpread.Web.Models
 
 	public class GroupDetailViewModel : GroupViewModel
 	{
+		public GroupDetailViewModel(GroupViewModel m)
+		{
+			Id = m.Id;
+			Name = m.Name;
+			PhotoId = m.PhotoId;
+			CreatedTime = m.CreatedTime;
+			OwnerName = m.OwnerName;
+			UserCount = m.UserCount;
+			IsOwner = m.IsOwner;
+		}
+
 		public GroupUserViewModel[] Users { get; set; }
 	}
 }
