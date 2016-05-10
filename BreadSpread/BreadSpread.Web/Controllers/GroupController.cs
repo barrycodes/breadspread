@@ -254,6 +254,32 @@ namespace BreadSpread.Web.Controllers
 			return View();
 		}
 
+		[HttpPost]
+		public async Task<ActionResult> RemoveMember(string userId, string groupId)
+		{
+			var user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
+			var group = await db.Groups.FirstOrDefaultAsync(g => g.Id == groupId);
+
+			if (user == null || group == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			if (!group.Users.Contains(user))
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			if (group.OwnerUser != await GetCurrentUser())
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			group.Users.Remove(user);
+			await db.SaveChangesAsync();
+
+			return new HttpStatusCodeResult(HttpStatusCode.OK);
+		}
+
+		public ActionResult Invite()
+		{
+			return View();
+		}
+
 		protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -103,8 +103,20 @@
 					$("#popupUserName").text($(obj).parent().prev().text());
 					$("#popupGroupName").text($("#groupName").val());
 					$("#popupYes").click(function () {
-						$.ajax()
-						alert($(obj).attr("id"));
+						$.ajax({
+							url: '@Url.Action("RemoveMember")',
+							data: {
+								userId: $(obj).attr("id").substring(5),
+								groupId: '@Model.Id'
+							},
+							type: "post",
+							success: function () {
+								$(obj).parent().parent().remove();
+							},
+							error: function () {
+								alert("Error occurred.");
+							}
+						});
 					});
 				});
 			});
