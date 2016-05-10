@@ -50,7 +50,19 @@
     </div>
 }
 
-@Html.Partial("_GroupUserList", Model)
+<div class="wrapped">
+	<h4>Members:</h4>
+	<table id="userTable">
+		@foreach (BreadSpread.Web.Models.GroupUserViewModel user in Model.Users)
+		{
+				<tr id="@(user.Name+'Row')">
+					<td>
+						@user.Name
+					</td>
+					<td>
+		}
+	</table>
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")

@@ -52,7 +52,10 @@ namespace BreadSpread.Web.Controllers
 							.OrderBy(u => u.UserName)
 							.Select(
 								u =>
-								new GroupUserViewModel { Name = u.UserName, IsOwner = (u == g.OwnerUser) })
+								new GroupUserViewModel {
+									Id = u.Id,
+									Name = u.UserName,
+									IsOwner = (u == g.OwnerUser) })
 							.ToArray()
 				};
 		}
