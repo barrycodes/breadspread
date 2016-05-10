@@ -32,11 +32,15 @@
     </div>
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Barry Smith</p>
-        </footer>
     </div>
+		<footer class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<hr />
+					<p>&copy; @DateTime.Now.Year - Barry Smith</p>
+				</div>
+			</div>
+		</footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

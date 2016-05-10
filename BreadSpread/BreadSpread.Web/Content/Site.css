@@ -88,3 +88,7 @@ div.popup {
 div.popup > p > span {
 	color: darkorange;
 }
+
+footer {
+	margin-top: 2em;
+}
