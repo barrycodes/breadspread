@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", id="groupName" } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,14 +52,20 @@
 
 <div class="wrapped">
 	<h4>Members:</h4>
-	<table id="userTable">
+	<table class="userTable">
 		@foreach (BreadSpread.Web.Models.GroupUserViewModel user in Model.Users)
 		{
-				<tr id="@(user.Name+'Row')">
-					<td>
-						@user.Name
-					</td>
-					<td>
+			<tr>
+				<td>
+					@user.Name
+				</td>
+				<td>
+					@if (!user.IsOwner)
+					{
+						<button type="button" class="removeUser my_popup_open" id='@("user-" + user.Id)'>Remove</button>
+					}
+				</td>
+			</tr>
 		}
 	</table>
 </div>
@@ -67,3 +73,37 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+<div id="my_popup" class="popup" style="background-color:white; padding:2em;">
+
+	<p>
+		Are you sure you want to remove user <span id="popupUserName"></span> from group <span id="popupGroupName"></span>?
+	</p>
+
+	<!-- Add an optional button to close the popup -->
+	<button id="popupYes" class="my_popup_close">Remove</button>
+	<button id="popupNo" class="my_popup_close">Cancel</button>
+
+</div>
+
+@section scripts
+{
+	<script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
+	
+	<script>
+		$(function () {
+			$("#my_popup").popup();
+			$(".removeUser").each(function (i, obj) {
+				$(obj).click(function () {
+					$("#popupYes").unbind("click");
+					$("#popupUserName").text($(obj).parent().prev().text());
+					$("#popupGroupName").text($("#groupName").val());
+					$("#popupYes").click(function () {
+						$.ajax()
+						alert($(obj).attr("id"));
+					});
+				});
+			});
+		});
+	</script>
+}

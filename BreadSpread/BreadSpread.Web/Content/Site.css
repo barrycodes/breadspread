@@ -70,3 +70,21 @@ textarea {
 .wrapped ul {
 	list-style: none;
 }
+
+.userTable td {
+	padding: 1em;
+}
+
+.userTable button.removeUser {
+	height: 1.8em;
+}
+
+div.popup {
+	visibility: hidden;
+	background-color: white;
+	padding: 2em;
+}
+
+div.popup > p > span {
+	color: darkorange;
+}

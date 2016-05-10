@@ -51,6 +51,10 @@ namespace BreadSpread.Web.Models
 			IsOwner = m.IsOwner;
 		}
 
+		public GroupDetailViewModel()
+		{
+		}
+
 		public GroupUserViewModel[] Users { get; set; }
 	}
 }

@@ -249,6 +249,11 @@ namespace BreadSpread.Web.Controllers
 			return RedirectToAction("Index");
 		}
 
+		public ActionResult TestAction()
+		{
+			return View();
+		}
+
 		protected override void Dispose(bool disposing)
         {
             if (disposing)
