@@ -6,6 +6,10 @@ namespace BreadSpread.Web.Models
 {
 	public class ApplicationIdentityDbContext : IdentityDbContext<User>
 	{
+		public DbSet<Group> Groups { get; set; }
+
+		public DbSet<Invitation> Invitations { get; set; }
+
 		static ApplicationIdentityDbContext()
 		{
 			// Uncomment below line to erase database upon application start
@@ -55,7 +59,5 @@ namespace BreadSpread.Web.Models
 			//	.HasRequired(g => g.OwnerUser)
 			//	.WithMany(u => u.OwnedGroups);
 		}
-
-		public System.Data.Entity.DbSet<BreadSpread.Web.Models.Group> Groups { get; set; }
 	}
 }

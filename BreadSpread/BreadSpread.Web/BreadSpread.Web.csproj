@@ -264,6 +264,7 @@
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\GroupViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Invitation.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
