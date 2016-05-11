@@ -104,8 +104,11 @@ namespace BreadSpread.Web.Controllers
 			return View();
 		}
 
-		public ActionResult AnswerInvite()
+		public ActionResult AnswerInvite(string invitationId)
 		{
+			HttpCookie cookie = new HttpCookie("InviteId");
+			cookie.Values.Add(null, invitationId);
+			HttpContext.Response.SetCookie(cookie);
 			return View();
 		}
 
