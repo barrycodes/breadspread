@@ -17,17 +17,13 @@ namespace BreadSpread.Web
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
-        {
+		public static Task SendEmailAsync(string dest, string sender, string subject, string body)
+		{
 			// TODO: move strings to CONFIG
-
-			using (MailMessage mail =
-				new MailMessage(
-					"deep.cosmic.mysteries@gmail.com",
-					message.Destination))
+			using (MailMessage mail = new MailMessage(sender, dest))
 			{
-				mail.Subject = message.Subject;
-				mail.Body = message.Body;
+				mail.Subject = subject;
+				mail.Body = body;
 				mail.IsBodyHtml = true;
 				using (SmtpClient client = new SmtpClient())
 				{
@@ -35,13 +31,24 @@ namespace BreadSpread.Web
 					client.Host = "smtp.gmail.com";
 					client.UseDefaultCredentials = false;
 					client.Credentials =
-						new System.Net.NetworkCredential("deep.cosmic.mysteries@gmail.com", "9523808514.aa");
+						new System.Net.NetworkCredential(sender, "9523808514.aa");
 					client.EnableSsl = true;
 					client.Port = 587;
 					client.Send(mail);
 				}
 			}
 			return Task.FromResult(0);
+		}
+
+        public async Task SendAsync(IdentityMessage message)
+        {
+			await SendEmailAsync(
+				message.Destination,
+				"deep.cosmic.mysteries@gmail.com",
+				message.Subject,
+				message.Body);
+
+			return;
         }
     }
 

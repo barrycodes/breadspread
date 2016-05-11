@@ -10,6 +10,8 @@ namespace BreadSpread.Web.Models
 	{
 		public string Id { get; set; }
 
+		public DateTime CreatedTime { get; set; }
+
 		public virtual Group Group { get; set; }
 	}
 }

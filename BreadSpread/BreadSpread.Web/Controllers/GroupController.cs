@@ -286,6 +286,36 @@ namespace BreadSpread.Web.Controllers
 			return View(model);
 		}
 
+		private async Task SendEmailInvite(string emailAddress, Invitation invitation, string groupName, string fromUsername)
+		{
+			// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+			// Send an email with this link
+
+			var callbackUrl =
+				Url.Action(
+					"AnswerInvite",
+					"Group",
+					new { invitationId = invitation.Id },
+					protocol: Request.Url.Scheme);
+
+			string message =
+				"BreadSpread Group Invitation<br/><br/>"
+				+ "You've been invited to join a group on BreadSpread by user "
+				+ fromUsername
+				+ ".<br/><br/>"
+				+ "Group name:"
+				+ groupName
+				+ "<br/><br/>"
+				+ "Click <a href=\""
+				+ callbackUrl
+				+ "\">here</a> to join the group.<br/><br/>"
+				+ "If the above link doesn't work, please copy and paste "
+				+ "the following into your address bar and press Enter:<br/><br/>"
+				+ callbackUrl;
+
+			await EmailService.SendEmailAsync(emailAddress, "deep.cosmic.mysteries@gmail.com", "BreadSpread Group Invitation", message);
+		}
+
 		[HttpPost]
 		public async Task<ActionResult> Invite(GroupInviteViewModel model)
 		{
@@ -296,13 +326,26 @@ namespace BreadSpread.Web.Controllers
 
 			invitation.Group = group;
 			invitation.Id = Guid.NewGuid().ToString();
+			invitation.CreatedTime = DateTime.Now;
 			db.Invitations.Add(invitation);
 			await db.SaveChangesAsync();
+
+			string destEmail = model.Username;
+			var destUser = await UserManager.FindByNameAsync(model.Username);
+			if (destUser != null)
+				destEmail = destUser.Email;
+
+			await SendEmailInvite(destEmail, invitation, group.Name, model.FromUsername);
 
 			return RedirectToAction("InviteSent");
 		}
 
 		public ActionResult InviteSent()
+		{
+			return View();
+		}
+
+		public ActionResult AnswerInvite()
 		{
 			return View();
 		}

@@ -263,6 +263,10 @@
     <Compile Include="Migrations\201605111749287_AddInvitationEntity.Designer.cs">
       <DependentUpon>201605111749287_AddInvitationEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605111817096_AddInvitationCreatedTime.cs" />
+    <Compile Include="Migrations\201605111817096_AddInvitationCreatedTime.Designer.cs">
+      <DependentUpon>201605111817096_AddInvitationCreatedTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataContext.cs" />
@@ -358,6 +362,7 @@
     <Content Include="Views\Shared\_GroupUserList.cshtml" />
     <Content Include="Views\Group\TestAction.cshtml" />
     <Content Include="Views\Group\Invite.cshtml" />
+    <Content Include="Views\Group\InviteSent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -403,6 +408,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605111749287_AddInvitationEntity.resx">
       <DependentUpon>201605111749287_AddInvitationEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605111817096_AddInvitationCreatedTime.resx">
+      <DependentUpon>201605111817096_AddInvitationCreatedTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
