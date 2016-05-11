@@ -57,4 +57,13 @@ namespace BreadSpread.Web.Models
 
 		public GroupUserViewModel[] Users { get; set; }
 	}
+
+	public class GroupInviteViewModel
+	{
+		public string FromUsername { get; set; }
+
+		public string GroupId { get; set; }
+
+		public string Username { get; set; }
+	}
 }
