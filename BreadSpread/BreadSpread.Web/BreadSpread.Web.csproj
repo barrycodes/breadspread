@@ -211,6 +211,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvitationController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -361,8 +362,9 @@
     <Content Include="Views\Group\Leave.cshtml" />
     <Content Include="Views\Shared\_GroupUserList.cshtml" />
     <Content Include="Views\Group\TestAction.cshtml" />
-    <Content Include="Views\Group\Invite.cshtml" />
-    <Content Include="Views\Group\InviteSent.cshtml" />
+    <Content Include="Views\Invitation\Invite.cshtml" />
+    <Content Include="Views\Invitation\InviteSent.cshtml" />
+    <Content Include="Views\Invitation\AnswerInvite.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
