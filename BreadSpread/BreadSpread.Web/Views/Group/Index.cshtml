@@ -54,7 +54,7 @@
 			@*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
 			@*@Html.ActionLink("Details", "Details", new { id=item.Id }) |*@
 
-			@Html.ActionLink("Invite", "Invite", new { id = item.Id })
+			@Html.ActionLink("Invite", "Invite", new { groupId = item.Id, groupName = item.Name })
 			&nbsp;|&nbsp;
 
 			@if (item.IsOwner)

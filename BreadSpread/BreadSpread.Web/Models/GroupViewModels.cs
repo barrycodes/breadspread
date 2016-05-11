@@ -64,6 +64,9 @@ namespace BreadSpread.Web.Models
 
 		public string GroupId { get; set; }
 
+		public string GroupName { get; set; }
+
+		[Display(Name = "Email or Username")]
 		public string Username { get; set; }
 	}
 }

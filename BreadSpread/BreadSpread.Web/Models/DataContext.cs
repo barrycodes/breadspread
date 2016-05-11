@@ -55,6 +55,7 @@ namespace BreadSpread.Web.Models
 				.HasMany(u => u.OwnedGroups)
 				.WithRequired(g => g.OwnerUser)
 				.WillCascadeOnDelete(false);
+
 			//modelBuilder.Entity<Group>()
 			//	.HasRequired(g => g.OwnerUser)
 			//	.WithMany(u => u.OwnedGroups);

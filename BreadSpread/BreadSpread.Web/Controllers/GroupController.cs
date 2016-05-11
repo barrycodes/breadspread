@@ -275,7 +275,34 @@ namespace BreadSpread.Web.Controllers
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
 
-		public ActionResult Invite()
+		public ActionResult Invite(string groupId, string groupName)
+		{
+			GroupInviteViewModel model = new GroupInviteViewModel();
+
+			model.GroupId = groupId;
+			model.GroupName = groupName;
+			model.FromUsername = User.Identity.GetUserName();
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> Invite(GroupInviteViewModel model)
+		{
+			Invitation invitation = new Invitation();
+			Group group = await db.Groups.FirstOrDefaultAsync(g => g.Id == model.GroupId);
+			if (group == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			invitation.Group = group;
+			invitation.Id = Guid.NewGuid().ToString();
+			db.Invitations.Add(invitation);
+			await db.SaveChangesAsync();
+
+			return RedirectToAction("InviteSent");
+		}
+
+		public ActionResult InviteSent()
 		{
 			return View();
 		}
