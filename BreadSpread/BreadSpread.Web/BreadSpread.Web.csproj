@@ -272,6 +272,10 @@
     <Compile Include="Migrations\201605121800563_AddInvitationUserField.Designer.cs">
       <DependentUpon>201605121800563_AddInvitationUserField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605121802567_AddInvitationCode.cs" />
+    <Compile Include="Migrations\201605121802567_AddInvitationCode.Designer.cs">
+      <DependentUpon>201605121802567_AddInvitationCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataContext.cs" />
@@ -422,6 +426,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605121800563_AddInvitationUserField.resx">
       <DependentUpon>201605121800563_AddInvitationUserField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605121802567_AddInvitationCode.resx">
+      <DependentUpon>201605121802567_AddInvitationCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
