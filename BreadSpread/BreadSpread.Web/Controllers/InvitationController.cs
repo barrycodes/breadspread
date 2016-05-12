@@ -15,6 +15,11 @@ namespace BreadSpread.Web.Controllers
 	[Authorize]
     public class InvitationController : Controller
     {
+		public static class Settings
+		{
+			public static readonly TimeSpan InvitationExpiry = TimeSpan.FromDays(7);
+		}
+
 		private ApplicationIdentityDbContext db;
 
 		/// <summary>
@@ -51,9 +56,9 @@ namespace BreadSpread.Web.Controllers
 				+ "You've been invited to join a group on BreadSpread by user "
 				+ fromUsername
 				+ ".<br/><br/>"
-				+ "Group name:"
+				+ "Group name: <b>"
 				+ groupName
-				+ "<br/><br/>"
+				+ "</b><br/><br/>"
 				+ "Click <a href=\""
 				+ callbackUrl
 				+ "\">here</a> to join the group.<br/><br/>"
@@ -104,11 +109,118 @@ namespace BreadSpread.Web.Controllers
 			return View();
 		}
 
-		public ActionResult AnswerInvite(string invitationId)
+		private void RemoveCookie(HttpCookie cookie, string invitationId)
 		{
-			HttpCookie cookie = new HttpCookie("InviteId");
-			cookie.Values.Add(null, invitationId);
+			if (cookie != null)
+			{
+				for (int i = cookie.Values.Count - 1; i >= 0; --i)
+					if (cookie.Values[i] == invitationId)
+						cookie.Values.Remove(invitationId);
+			}
+		}
+
+		private string[] GetCookies(HttpCookie cookie)
+		{
+			List<string> results = new List<string>();
+			if (cookie != null)
+			{
+				for (int i = 0; i < cookie.Values.Count; ++i)
+					results.Add(cookie.Values[i]);
+			}
+			return results.ToArray();
+		}
+
+		private void AddCookie(HttpCookie cookie, string invitationId)
+		{
+			if (cookie != null)
+			{
+				RemoveCookie(cookie, invitationId);
+				cookie.Values.Add(invitationId, invitationId);
+				cookie.Expires = DateTime.Now.AddDays(1);
+			}
+		}
+
+		[AllowAnonymous]
+		public async Task<ActionResult> AnswerInvite(string invitationId)
+		{
+			if (invitationId == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			Invitation invite =
+				await db.Invitations
+					.Include(i => i.Group)
+					.Include(i => i.Group.OwnerUser)
+					.FirstOrDefaultAsync(i => i.Id == invitationId);
+
+			if (invite == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			DateTime expiryDate = invite.CreatedTime + Settings.InvitationExpiry;
+			if (expiryDate < DateTime.Now)
+				return RedirectToAction(
+					"Expired",
+					new { expiryDate = expiryDate.ToString("yyyy-MM-dd hh:mm tt")});
+
+			var cookie = HttpContext.Request.Cookies["InviteId"];
+			if (cookie == null)
+				cookie = new HttpCookie("InviteId");
+			AddCookie(cookie, invitationId);
 			HttpContext.Response.SetCookie(cookie);
+
+			if (!HttpContext.Request.IsAuthenticated)
+				return RedirectToAction("Login", "Account");
+
+			InvitationViewModel model =
+				new InvitationViewModel
+				{
+					InvitationId = invite.Id,
+					GroupId = invite.Group.Id,
+					GroupName = invite.Group.Name,
+					OwnerName = invite.Group.OwnerUser.UserName
+				};
+
+			return View(model);
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> AnswerInvite(string button, InvitationViewModel model)
+		{
+			bool accept = (button == "yes");
+
+			Invitation invite = await db.Invitations.FirstOrDefaultAsync(i => i.Id == model.InvitationId);
+			Group group = await db.Groups.Include(g => g.Users).FirstOrDefaultAsync(g => g.Id == model.GroupId);
+
+			if (invite == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			DateTime expiryTime = invite.CreatedTime + Settings.InvitationExpiry;
+
+			db.Invitations.Remove(invite);
+			await db.SaveChangesAsync();
+
+			if (expiryTime < DateTime.Now)
+				return RedirectToAction(
+					"Expired",
+					new { expiryDate = expiryTime.ToString("yyyy-MM-dd hh:mm tt") });
+
+			if (group == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			if (accept)
+			{
+				User user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+				if (!group.Users.Contains(user))
+					group.Users.Add(user);
+				await db.SaveChangesAsync();
+			}
+
+			return RedirectToAction("Index", "Group");
+		}
+
+		[AllowAnonymous]
+		public ActionResult Expired(string expiryDate)
+		{
+			ViewBag.ExpiryDate = expiryDate;
 			return View();
 		}
 

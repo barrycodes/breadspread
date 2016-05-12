@@ -92,3 +92,7 @@ div.popup > p > span {
 footer {
 	margin-top: 2em;
 }
+
+span.bold {
+	font-weight: bold;
+}

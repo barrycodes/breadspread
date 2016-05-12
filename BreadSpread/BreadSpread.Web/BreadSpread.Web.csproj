@@ -274,6 +274,7 @@
     <Compile Include="Models\GroupViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Invitation.cs" />
+    <Compile Include="Models\InvitationViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -365,6 +366,7 @@
     <Content Include="Views\Invitation\Invite.cshtml" />
     <Content Include="Views\Invitation\InviteSent.cshtml" />
     <Content Include="Views\Invitation\AnswerInvite.cshtml" />
+    <Content Include="Views\Invitation\Expired.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

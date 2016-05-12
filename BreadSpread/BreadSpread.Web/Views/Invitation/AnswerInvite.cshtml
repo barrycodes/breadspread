@@ -1,7 +1,24 @@
-﻿
+﻿@model BreadSpread.Web.Models.InvitationViewModel
 @{
-    ViewBag.Title = "BreadSpread - Invitation";
+		ViewBag.Title = "BreadSpread - Invitation";
 }
 
 <h2>Invitation</h2>
 
+<div class="row">
+	<div class="col-md-8">
+		@using (Html.BeginForm("AnswerInvite", "Invitation", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+		{
+			@Html.AntiForgeryToken()
+			@Html.HiddenFor(m => m.InvitationId)
+			@Html.HiddenFor(m => m.GroupId)
+
+			<p>You've been invited to join group <span class="bold">@Model.GroupName</span> owned by @(Model.OwnerName).</p>
+
+			<p>Do you want to join the group?</p>
+
+			<button name="button" class="btn btn-default" value="yes">Yes</button>
+			<button name="button" class="btn btn-default" value="no">No</button>
+		}
+	</div>
+</div>
