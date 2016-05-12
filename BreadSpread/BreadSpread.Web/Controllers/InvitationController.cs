@@ -48,7 +48,7 @@ namespace BreadSpread.Web.Controllers
 				Url.Action(
 					"AnswerInvite",
 					"Invitation",
-					new { invitationId = invitation.Id },
+					new { invitationCode = invitation.Code },
 					protocol: Request.Url.Scheme);
 
 			string message =
@@ -90,6 +90,11 @@ namespace BreadSpread.Web.Controllers
 
 			invitation.Group = group;
 			invitation.Id = Guid.NewGuid().ToString();
+			invitation.Code =
+				(Guid.NewGuid().ToString()
+					+ Guid.NewGuid().ToString()
+					+ Guid.NewGuid().ToString())
+				.Replace("-", "");
 			invitation.CreatedTime = DateTime.Now;
 			db.Invitations.Add(invitation);
 			await db.SaveChangesAsync();
@@ -141,16 +146,16 @@ namespace BreadSpread.Web.Controllers
 		}
 
 		[AllowAnonymous]
-		public async Task<ActionResult> AnswerInvite(string invitationId)
+		public async Task<ActionResult> AnswerInvite(string invitationCode)
 		{
-			if (invitationId == null)
+			if (invitationCode == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
 			Invitation invite =
 				await db.Invitations
 					.Include(i => i.Group)
 					.Include(i => i.Group.OwnerUser)
-					.FirstOrDefaultAsync(i => i.Id == invitationId);
+					.FirstOrDefaultAsync(i => i.Code == invitationCode);
 
 			if (invite == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -164,7 +169,7 @@ namespace BreadSpread.Web.Controllers
 			var cookie = HttpContext.Request.Cookies["InviteId"];
 			if (cookie == null)
 				cookie = new HttpCookie("InviteId");
-			AddCookie(cookie, invitationId);
+			AddCookie(cookie, invite.Id);
 			HttpContext.Response.SetCookie(cookie);
 
 			if (!HttpContext.Request.IsAuthenticated)
