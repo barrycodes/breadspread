@@ -96,13 +96,16 @@ namespace BreadSpread.Web.Controllers
 					+ Guid.NewGuid().ToString())
 				.Replace("-", "");
 			invitation.CreatedTime = DateTime.Now;
-			db.Invitations.Add(invitation);
-			await db.SaveChangesAsync();
 
 			string destEmail = model.Username;
 			var destUser = await UserManager.FindByNameAsync(model.Username);
 			if (destUser != null)
 				destEmail = destUser.Email;
+			else destUser = await UserManager.FindByEmailAsync(model.Username);
+
+			invitation.User = destUser;
+			db.Invitations.Add(invitation);
+			await db.SaveChangesAsync();
 
 			await SendEmailInvite(destEmail, invitation, group.Name, model.FromUsername);
 
