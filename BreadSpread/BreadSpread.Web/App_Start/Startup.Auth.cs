@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using BreadSpread.Web.Models;
+using System.Configuration;
 
 namespace BreadSpread.Web
 {
@@ -47,21 +48,21 @@ namespace BreadSpread.Web
 
             // Uncomment the following lines to enable logging in with third party login providers
 			app.UseMicrosoftAccountAuthentication(
-				clientId: "aaa",
-				clientSecret: "aaa");
+				clientId: ConfigurationManager.AppSettings["MicrosoftAuthenticationKey"],
+				clientSecret: ConfigurationManager.AppSettings["MicrosoftAuthenticationSecret"]);
 
 			app.UseTwitterAuthentication(
-			   consumerKey: "aaa",
-			   consumerSecret: "aaa");
+			   consumerKey: ConfigurationManager.AppSettings["TwitterAuthenticationKey"],
+			   consumerSecret: ConfigurationManager.AppSettings["TwitterAuthenticationSecret"]);
 
 			app.UseFacebookAuthentication(
-			   appId: "aaa",
-			   appSecret: "aaa");
+			   appId: ConfigurationManager.AppSettings["FacebookAuthenticationKey"],
+			   appSecret: ConfigurationManager.AppSettings["FacebookAuthenticationSecret"]);
 
 			app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
 			{
-				ClientId = "aaa",
-				ClientSecret = "aaa"
+				ClientId = ConfigurationManager.AppSettings["GoogleAuthenticationKey"],
+				ClientSecret = ConfigurationManager.AppSettings["GoogleAuthenticationSecret"]
 			});
         }
     }
