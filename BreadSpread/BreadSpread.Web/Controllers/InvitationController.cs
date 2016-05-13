@@ -66,7 +66,7 @@ namespace BreadSpread.Web.Controllers
 				+ "the following into your address bar and press Enter:<br/><br/>"
 				+ callbackUrl;
 
-			await EmailService.SendEmailAsync(emailAddress, "deep.cosmic.mysteries@gmail.com", "BreadSpread Group Invitation", message);
+			await EmailService.SendEmailAsync(emailAddress, "BreadSpread Group Invitation", message);
 		}
 
 		public ActionResult Invite(string groupId, string groupName)

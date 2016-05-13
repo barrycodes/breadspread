@@ -12,15 +12,16 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using BreadSpread.Web.Models;
+using System.Configuration;
 
 namespace BreadSpread.Web
 {
     public class EmailService : IIdentityMessageService
     {
-		public static Task SendEmailAsync(string dest, string sender, string subject, string body)
+		public static Task SendEmailAsync(string dest, string subject, string body)
 		{
 			// TODO: move strings to CONFIG
-			using (MailMessage mail = new MailMessage(sender, dest))
+			using (MailMessage mail = new MailMessage(ConfigurationManager.AppSettings["MailUser"], dest))
 			{
 				mail.Subject = subject;
 				mail.Body = body;
@@ -28,10 +29,12 @@ namespace BreadSpread.Web
 				using (SmtpClient client = new SmtpClient())
 				{
 					client.DeliveryMethod = SmtpDeliveryMethod.Network;
-					client.Host = "smtp.gmail.com";
+					client.Host = ConfigurationManager.AppSettings["MailHost"];
 					client.UseDefaultCredentials = false;
 					client.Credentials =
-						new System.Net.NetworkCredential(sender, "9523808514.aa");
+						new System.Net.NetworkCredential(
+							ConfigurationManager.AppSettings["MailUser"],
+							ConfigurationManager.AppSettings["MailPassword"]);
 					client.EnableSsl = true;
 					client.Port = 587;
 					client.Send(mail);
@@ -44,7 +47,6 @@ namespace BreadSpread.Web
         {
 			await SendEmailAsync(
 				message.Destination,
-				"deep.cosmic.mysteries@gmail.com",
 				message.Subject,
 				message.Body);
 
